@@ -8,6 +8,7 @@
     --shadow: 0px 0px 8px 0px #00000021;
     --text:'Nunito Sans', sans-serif;
     --dark-elements:hsl(209, 23%, 22%);
+    --max-width:1296px;
 }
 
 body{
@@ -38,7 +39,7 @@ header.dark-mode{
 }
 
 nav{
-    max-width: 1440px;
+    max-width: var(--max-width);
     width: 90%;
     margin: 0 auto;
     height: 100%;
@@ -55,11 +56,14 @@ nav{
 .background-light-btn{
     display: flex;
     cursor: pointer;
+    font-weight: 400;
 }
 
 .background-light-btn .icon{
     margin-right: 6px;
+    transform: rotate(-20deg);
 }
+
 
 main{
     width: 90%;
@@ -67,7 +71,7 @@ main{
     height: auto;
     margin: 0 auto;
     min-height: 90vh;
-    max-width: 1440px;
+    max-width: var(--max-width);
 }
 
 .form-wrap{
@@ -103,6 +107,15 @@ main{
    margin-left: 5px;
 }
 
+.search-btn{
+    border: none;
+    background-color: transparent;
+}
+
+.search-btn.dark-mode{
+    color: white;
+}
+
 .input-cont input{
     border: none;
     width: 100%;
@@ -114,12 +127,13 @@ main{
     color: white;
 }
 
+
 .drop-wrap {
     -webkit-box-shadow: var(--shadow); 
     box-shadow: var(--shadow);
     border-radius: 5px;
     position: relative;
-    padding: 20px 30px;
+    padding: 17px 30px;
     padding-right: 20px;
 }
 
@@ -176,13 +190,17 @@ main{
     margin-bottom: 10px;
 }
 
-/*All countries container*/
+/*All countries styling*/
+
+.countries-wrap{
+    padding-bottom: 80px;
+}
 
 .all-countries-cont{
     width: 100%;
     display: grid;
-    justify-content: space-between;
-    grid-gap: 50px;
+    grid-gap: 57px;
+    justify-content: center;
     grid-template-columns:repeat(auto-fit , minmax(200px, 280px));
 }
 
@@ -190,10 +208,6 @@ main{
     -webkit-box-shadow:var(--shadow);
     box-shadow:var(--shadow);
     border-radius: 10px;
-}
-
-.countries-wrap{
-    padding-bottom: 80px;
 }
 
 .card{
@@ -252,3 +266,34 @@ main{
 }
 
 
+@media screen  and (max-width:800px){
+    
+    .logo{
+        font-size: 1rem;
+    }
+
+    .background-light-btn{
+        align-items: center;
+    }
+
+    .background-light-btn p{
+        font-size: .8rem;
+    }
+    
+
+    .form-cont{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    .input-cont{
+        margin-bottom: 50px;
+    }
+    
+    .form-cont .input-cont{
+        width: 100%;
+    }
+
+}

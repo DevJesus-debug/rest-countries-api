@@ -9,16 +9,22 @@ const body = document.querySelector("body");
 const wrap = document.querySelector(".wrap")
 const dropWrap = document.querySelector(".drop-wrap");
 const inputCont = document.querySelector(".input-cont");
-const input = document.querySelector(".input-cont input");
+const input = document.querySelector(".search");
+const searchButton = document.querySelector(".search-btn");
 const header = document.querySelector("header");
-const searchNameUrl = "https://restcountries.com/v2/name/{name}";
 const allUrl = "https://restcountries.com/v2/all";
 
-const darkModeArray = [body,inputCont,dropWrap,header,drop,wrap,input]
+const darkModeArray = [body,inputCont,dropWrap,header,drop,wrap,input,searchButton]
 //PAGE LINK https://restcountries.com/#api-endpoints-v2
 
 
 //EventListeners
+
+searchButton.addEventListener("click",(e)=>{
+    e.preventDefault()
+    searchCountry()
+})
+
 openDrop.addEventListener("click",()=>{
     drop.classList.toggle("drop-active");
     openDrop.classList.toggle("rotate");
@@ -64,16 +70,21 @@ async function getAllCountries(){
                     createHtml(data,allCountriesCont)
                 }
 
-                if(darkBtn.classList.contains("dark-mode")){
-                    for(let i = 0; i < allCountriesCard.length ;i++){
-                        allCountriesCard[i].classList.add("dark-mode")
-                    }                
-                }
-
+                darkBackground(allCountriesCard)
             })
         })
     })
 
+}
+
+
+//If the dark mode fails on some items
+function darkBackground(container){
+    if(darkBtn.classList.contains("dark-mode")){
+        for(let i = 0; i < container.length ;i++){
+            container[i].classList.add("dark-mode")
+        }                
+    }
 }
 
 
@@ -107,5 +118,21 @@ async function getAllCountries(){
             container.appendChild(countryCard);
 }
 
+async function searchCountry(){
+    const dataFetch = await fetch(`https://restcountries.com/v2/name/${input.value}`);
+    const data = await dataFetch.json();
+    
+    if(input.value !== ""){
+        allCountriesCont.innerHTML = "";
+        data.forEach(datas=>{
+            createHtml(datas,allCountriesCont)
+            darkBackground(allCountriesCard)
+        })
+    }else{
+        allCountriesCont.innerHTML = "";
+        getAllCountries()
+    }
+}
 
+searchCountry();
 getAllCountries();
