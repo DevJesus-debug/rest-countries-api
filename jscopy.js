@@ -98,16 +98,58 @@ async function getAllCountries(){
 
 }
 
- allCountriesCont.addEventListener("click",e=>{
-        console.log(e.target)
- })
+async function cardClickEvent(e){
+    e = e || window.event;
+    e.preventDefault()
+
+    //Check if the image was cliked
+    if(e.target){
+    const countryName = e.target.getAttribute("value");
+    const dataFetch = await fetch(`https://restcountries.com/v2/name/${countryName}`);
+    const data = await dataFetch.json();
+    
+    data.forEach(datas=>{
+        // allCountriesCont.innerHTML = " ";
+        
+        //Create html for country info page 
+        const html = `<div class="country-info-cont">
+                        <div class="img-cont">
+                            <img src="${datas.flags.png}" alt="${datas.name} flag image"/>
+                        </div>
+                        <div class="info-container">
+                            <h1>${datas.name}</h1>
+                            <div class="list-info">
+                                <div class="list-cont1">
+                                    <h2>Native Name:<p>${datas.nativeName}</p></h2>
+                                    <h2>Population:<p>${datas.population}</p></h2>
+                                    <h2>Region:<p>${datas.region}</p></h2>
+                                    <h2>Sub Region:<p>${datas.subregion}</p></h2>
+                                    <h2>Capital:<p>${datas.capital}</p></h2>
+                                </div>
+                                <div class="list-cont2">
+                                    <h2>Top Level Domain:<p>${datas.topLevelDomain}</p></h2>
+                                    <h2>Currencies:<p>${datas.currencies.map(currencie=>currencie.name)}</p></h2>
+                                    <h2>Languages:<p>${datas.languages.map(language=>language.name)}</p></h2>
+                                </div>
+                            </div>
+                        </div>
+                      </div>`
+                      console.log(datas)
+                      console.log(html)
+    
+    })
+
+    }else{
+        false
+    }
+ }
 
  
 
  async function createHtml(data,container){   
-    const html = `<div class="card"> 
+    const html = `<div class="card" onClick="cardClickEvent()"> 
                     <div class="img-wrap">
-                         <img src="${data.flags.png}" alt="countrie flag">
+                         <img src="${data.flags.png}" alt="${data.name} flag image" value="${data.name}"/>
                     </div>
                     <div class="info-wrap">
                         <div class="info-cont">

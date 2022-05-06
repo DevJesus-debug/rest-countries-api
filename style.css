@@ -59,10 +59,24 @@ nav{
     font-weight: 400;
 }
 
-.background-light-btn .icon{
+.background-light-btn .dark-icon{
     margin-right: 6px;
     transform: rotate(-20deg);
 }
+
+.background-light-btn .light-icon{
+    display: none;
+}
+
+.background-light-btn .dark-icon.dark-mode{
+    display: none;
+}
+
+.background-light-btn .light-icon.dark-mode{
+    display: block;
+    margin-right: 6px;
+}
+
 
 
 main{
@@ -199,7 +213,7 @@ main{
 .all-countries-cont{
     width: 100%;
     display: grid;
-    grid-gap: 57px;
+    grid-gap: 58px;
     justify-content: center;
     grid-template-columns:repeat(auto-fit , minmax(200px, 280px));
 }
