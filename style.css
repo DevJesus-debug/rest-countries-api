@@ -100,6 +100,38 @@ main{
     justify-content: space-between;
 }
 
+.form-cont.hide{
+    display: none;
+}
+
+.back-btn-cont button{
+    display: none;
+    border: none;
+    background: white;
+    -webkit-box-shadow: 0px 0px 2px 2px #00000047; 
+    box-shadow: 0px 0px 2px 2px #00000047;
+    padding: 10px 35px;
+    border-radius: 5px;
+}
+
+.back-btn-cont button.show-back-btn{
+    display: flex;
+    align-items: center;
+}
+
+.back-btn-cont button.dark-mode{
+    background-color: var(--dark-elements);
+    color: white;
+}
+
+.back-btn-cont button p{
+    margin-left: 10px;
+}
+
+.back-btn-cont.show-btn{
+    border: none;
+}
+
 .input-cont{
     -webkit-box-shadow: var(--shadow); 
     box-shadow: var(--shadow);
@@ -283,7 +315,7 @@ main{
 
 .country-info-cont{
     display: flex;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .country-info-cont .img-cont{

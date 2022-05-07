@@ -4,6 +4,8 @@ const dropChoices = document.querySelectorAll(".drop li");
 const allCountriesCont = document.querySelector(".all-countries-cont")
 const countryInfoWrap = document.querySelector(".country-info-wrap")
 const darkBtn = document.querySelector(".background-light-btn");
+const backBtn = document.querySelector(".back-btn-cont button");
+const formCont = document.querySelector(".form-cont");
 //Dark mode elements
 // const allCountriesCard = document.querySelector(".all-countries-cont").children;
 const allCountriesCard = document.querySelector(".all-countries-cont").children;
@@ -19,7 +21,7 @@ const darkText = document.querySelector(".dark-text");
 const header = document.querySelector("header");
 const allUrl = "https://restcountries.com/v2/all";
 
-const darkModeArray = [body,inputCont,dropWrap,header,drop,wrap,input,searchButton,lightIcon,darkIcon]
+const darkModeArray = [body,inputCont,dropWrap,header,drop,wrap,input,searchButton,lightIcon,darkIcon,backBtn]
 //PAGE LINK https://restcountries.com/#api-endpoints-v2
 
 
@@ -119,6 +121,8 @@ async function cardClickEvent(e){
         data.forEach(datas=>{
             if(datas.name === countryName){
                 allCountriesCont.innerHTML = "";
+                formCont.classList.add("hide");
+                backBtn.classList.add("show-back-btn")
                 //Create html for country info page 
                 const html = `  <div class="img-cont">
                                     <img src="${datas.flags.png}" alt="${datas.name} flag image"/>
