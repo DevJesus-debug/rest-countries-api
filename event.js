@@ -2,6 +2,7 @@ const openDrop = document.querySelector(".drop-cont .fa-solid");
 const drop = document.querySelector(".drop-cont .drop");
 const dropChoices = document.querySelectorAll(".drop li");
 const allCountriesCont = document.querySelector(".all-countries-cont")
+const countryInfoWrap = document.querySelector(".country-info-wrap")
 const darkBtn = document.querySelector(".background-light-btn");
 //Dark mode elements
 // const allCountriesCard = document.querySelector(".all-countries-cont").children;
@@ -84,10 +85,13 @@ async function getAllCountries(){
         //EventListener
         choice.addEventListener("click",()=>{
             allCountriesCont.innerHTML = "";
+            countryInfoWrap.innerHTML="";
             let value = choice.getAttribute("value");
 
             data.forEach(data=>{
                 if(data.region === value){
+                    createHtml(data,allCountriesCont)
+                }else if(value ==="All"){
                     createHtml(data,allCountriesCont)
                 }
 
@@ -98,31 +102,103 @@ async function getAllCountries(){
 
 }
 
- allCountriesCont.addEventListener("click",e=>{
-        console.log(e.target)
- })
 
+//Getting card info, creating card info html and appending it to container
+async function cardClickEvent(e){
+    e = e || window.event;
+    e.preventDefault()
+
+    //Check if the image was cliked
+    if(e.target){
+    const countryName = e.target.getAttribute("value");
+    const dataFetch = await fetch(`https://restcountries.com/v2/name/${countryName}`);
+    // const dataFetch = await fetch(`https://restcountries.com/v2/${countryName}`);
+    const data = await dataFetch.json();
+    
+    data.forEach(datas=>{
+        allCountriesCont.innerHTML = "";
+        //Create html for country info page 
+        const html = `  <div class="img-cont">
+                            <img src="${datas.flags.png}" alt="${datas.name} flag image"/>
+                        </div>
+                        <div class="info-container">
+                            <h1>${datas.name}</h1>
+                            <div class="list-info">
+                                <div class="list-cont1">
+                                    <h2>Native Name:<p>${checkIfData(datas.nativeName)}</p></h2>
+                                    <h2>Population:<p>${separator(datas.population)}</p></h2>
+                                    <h2>Region:<p>${checkIfData(datas.region)}</p></h2>
+                                    <h2>Sub Region:<p>${checkIfData(datas.subregion)}</p></h2>
+                                    <h2>Capital:<p>${checkIfData(datas.capital)}</p></h2>
+                                </div>
+                                <div class="list-cont2">
+                                    <h2>Top Level Domain:<p>${checkIfData(datas.topLevelDomain)}</p></h2>
+                                    <h2>Currencies:<p>${ifDataArray(datas.currencies)}</p></h2>
+                                    <h2>Languages:<p>${ifDataArray(datas.languages)}</p></h2>
+                                </div>
+                            </div>
+                        </div>
+                        `
+                        
+                      const countryInfo = document.createElement("div")
+                      countryInfo.classList.add("country-info-cont");
+                      countryInfo.innerHTML = html;
+                      countryInfoWrap.appendChild(countryInfo)
+                       
+    })
+     }else{
+        false
+    }
+ }
+
+
+//checking if array has data if not then display none
+ function ifDataArray(data){
+    if(typeof data === "undefined"){
+       return "none"
+    }else{
+        return data.map(datas => datas.name)
+    }
+}
+
+//Checking if it has the information if not then return a none text
+function checkIfData(data){
+    if(typeof data === "undefined"){
+        return "none"
+    }else{
+        return data
+    }
+}
+
+
+//Adding comas to number
+ function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
+}
  
 
+//creating html for all countries
  async function createHtml(data,container){   
-    const html = `<div class="card"> 
+    const html = `<div class="card" onClick="cardClickEvent()"> 
                     <div class="img-wrap">
-                         <img src="${data.flags.png}" alt="countrie flag">
+                         <img src="${data.flags.png}" alt="${data.name} flag image" value="${data.name}"/>
                     </div>
                     <div class="info-wrap">
                         <div class="info-cont">
                             <h2>${data.name} </h2>
                             <div class="text">
                                  <h3>Population:</h3>
-                                 <p>${data.population}</p>
+                                 <p>${separator(data.population)}</p>
                             </div>
                             <div class="text">
                                 <h3>Region:</h3>
-                                <p>${data.region}</p>
+                                <p>${checkIfData(data.region)}</p>
                             </div>
                             <div class="text">
                                 <h3>Capital:</h3>
-                                <p>${data.capital}</p>
+                                <p>${checkIfData(data.capital)}</p>
                             </div>
                         </div
                     </div>
@@ -134,12 +210,15 @@ async function getAllCountries(){
             container.appendChild(countryCard);
 }
 
+
+//Search for country
 async function searchCountry(){
     const dataFetch = await fetch(`https://restcountries.com/v2/name/${input.value}`);
     const data = await dataFetch.json();
     
     if(input.value !== ""){
         allCountriesCont.innerHTML = "";
+        countryInfoWrap.innerHTML="";
         data.forEach(datas=>{
             createHtml(datas,allCountriesCont)
             darkBackground(allCountriesCard)
@@ -150,16 +229,8 @@ async function searchCountry(){
     }
 }
 
-async function cardInfo(){
-    const dataFetch = await fetch(allUrl);
-    const data = await dataFetch.json();
 
-   Array.from(allCountriesCard).forEach(card=>{
-       console.log(card[i])
-   })
 
-}
 
-cardInfo()
 searchCountry();
 getAllCountries();
