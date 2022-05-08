@@ -27,16 +27,31 @@ const darkModeArray = [body,inputCont,dropWrap,header,drop,wrap,input,searchButt
 
 //EventListeners
 
+
+
+body.addEventListener("click",(e)=>{
+    if(e.target !== openDrop){
+        drop.classList.remove("drop-active")
+        openDrop.classList.remove("rotate")
+    }else{
+        drop.classList.toggle("drop-active");
+        openDrop.classList.toggle("rotate");
+    }
+
+})
+
 searchButton.addEventListener("click",(e)=>{
     e.preventDefault()
     searchCountry()
 })
 
-
-openDrop.addEventListener("click",()=>{
-    drop.classList.toggle("drop-active");
-    openDrop.classList.toggle("rotate");
+backBtn.addEventListener("click",()=>{
+    backBtn.classList.remove("show-back-btn")
+    formCont.classList.remove("hide");
+    countryInfoWrap.innerHTML="";
+    allCountriesCont.classList.remove("hide-countries")
 })
+
 
 
 //Dark move button funtionality
@@ -120,7 +135,7 @@ async function cardClickEvent(e){
     
         data.forEach(datas=>{
             if(datas.name === countryName){
-                allCountriesCont.innerHTML = "";
+                allCountriesCont.classList.add("hide-countries")
                 formCont.classList.add("hide");
                 backBtn.classList.add("show-back-btn")
                 //Create html for country info page 
@@ -154,41 +169,6 @@ async function cardClickEvent(e){
                         
         })
     }
-    // data.forEach(datas=>{
-    //     console.log(data.length)
-    //     allCountriesCont.innerHTML = "";
-    // //     Create html for country info page 
-    //     const html = `  <div class="img-cont">
-    //                         <img src="${datas.flags.png}" alt="${datas.name} flag image"/>
-    //                     </div>
-    //                     <div class="info-container">
-    //                         <h1>${datas.name}</h1>
-    //                         <div class="list-info">
-    //                             <div class="list-cont1">
-    //                                 <h2>Native Name:<p>${checkIfData(datas.nativeName)}</p></h2>
-    //                                 <h2>Population:<p>${separator(datas.population)}</p></h2>
-    //                                 <h2>Region:<p>${checkIfData(datas.region)}</p></h2>
-    //                                 <h2>Sub Region:<p>${checkIfData(datas.subregion)}</p></h2>
-    //                                 <h2>Capital:<p>${checkIfData(datas.capital)}</p></h2>
-    //                             </div>
-    //                             <div class="list-cont2">
-    //                                 <h2>Top Level Domain:<p>${checkIfData(datas.topLevelDomain)}</p></h2>
-    //                                 <h2>Currencies:<p>${ifDataArray(datas.currencies)}</p></h2>
-    //                                 <h2>Languages:<p>${ifDataArray(datas.languages)}</p></h2>
-    //                             </div>
-    //                         </div>
-    //                     </div>
-    //                     `
-                        
-    //                   const countryInfo = document.createElement("div")
-    //                   countryInfo.classList.add("country-info-cont");
-    //                   countryInfo.innerHTML = html;
-    //                   countryInfoWrap.appendChild(countryInfo)
-                       
-    // })
-    //  }else{
-    //     false
-    // }
  }
 
 

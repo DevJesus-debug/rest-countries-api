@@ -111,6 +111,7 @@ main{
     -webkit-box-shadow: 0px 0px 2px 2px #00000047; 
     box-shadow: 0px 0px 2px 2px #00000047;
     padding: 10px 35px;
+    cursor: pointer;
     border-radius: 5px;
 }
 
@@ -151,6 +152,7 @@ main{
 .input-cont .fa-solid{
    margin-right: 20px;
    margin-left: 5px;
+   cursor: pointer;
 }
 
 .search-btn{
@@ -250,6 +252,10 @@ main{
     grid-template-columns:repeat(auto-fit , minmax(200px, 280px));
 }
 
+.all-countries-cont.hide-countries{
+  display: none;
+}
+
 .country-card{
     -webkit-box-shadow:var(--shadow);
     box-shadow:var(--shadow);
@@ -277,6 +283,7 @@ main{
     height: 100%;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    cursor: pointer;
 }
 
 .card .info-cont{
@@ -391,6 +398,44 @@ main{
     
     .form-cont .input-cont{
         width: 100%;
+    }
+
+    .country-info-cont{
+        display: flex;
+        flex-direction: column;
+        margin-top: 30px;
+    }
+
+    .country-info-cont .info-container{
+        width: 100%;
+        padding: 0;
+    }
+
+    .info-container .list-info{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .info-container .list-info .list-cont2{
+        margin-left: 0;
+        margin-top: 70px;
+    }
+
+    .country-info-cont .img-cont{
+        width:100%;
+     }
+
+     .country-info-cont .img-cont img{
+        width: 100%;
+        max-width: 600px;
+        height: 250px;
+    }
+
+    .info-container h1{
+        font-size: 2rem;
+        margin-bottom: 30px;
+        margin-top: 40px;
     }
 
 }

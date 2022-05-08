@@ -4,6 +4,8 @@ const dropChoices = document.querySelectorAll(".drop li");
 const allCountriesCont = document.querySelector(".all-countries-cont")
 const countryInfoWrap = document.querySelector(".country-info-wrap")
 const darkBtn = document.querySelector(".background-light-btn");
+const backBtn = document.querySelector(".back-btn-cont button");
+const formCont = document.querySelector(".form-cont");
 //Dark mode elements
 // const allCountriesCard = document.querySelector(".all-countries-cont").children;
 const allCountriesCard = document.querySelector(".all-countries-cont").children;
@@ -19,22 +21,37 @@ const darkText = document.querySelector(".dark-text");
 const header = document.querySelector("header");
 const allUrl = "https://restcountries.com/v2/all";
 
-const darkModeArray = [body,inputCont,dropWrap,header,drop,wrap,input,searchButton,lightIcon,darkIcon]
+const darkModeArray = [body,inputCont,dropWrap,header,drop,wrap,input,searchButton,lightIcon,darkIcon,backBtn]
 //PAGE LINK https://restcountries.com/#api-endpoints-v2
 
 
 //EventListeners
+
+
+
+body.addEventListener("click",(e)=>{
+    if(e.target !== openDrop){
+        drop.classList.remove("drop-active")
+        openDrop.classList.remove("rotate")
+    }else{
+        drop.classList.toggle("drop-active");
+        openDrop.classList.toggle("rotate");
+    }
+
+})
 
 searchButton.addEventListener("click",(e)=>{
     e.preventDefault()
     searchCountry()
 })
 
-
-openDrop.addEventListener("click",(e)=>{
-    drop.classList.toggle("drop-active");
-    openDrop.classList.toggle("rotate");
+backBtn.addEventListener("click",()=>{
+    backBtn.classList.remove("show-back-btn")
+    formCont.classList.remove("hide");
+    countryInfoWrap.innerHTML="";
+    allCountriesCont.classList.remove("hide-countries")
 })
+
 
 
 //Dark move button funtionality
@@ -61,7 +78,7 @@ darkBtn.addEventListener("click",()=>{
 
 //Funtions//////////////////////////////////////////////////
 
-//It checks if the darkmode button hass the dark-mode  
+//It checks if the darkmode button has the dark-mode  
 //removes or adds dark-mode classes on items
 function darkBackground(container){
     if(darkBtn.classList.contains("dark-mode")){
@@ -70,6 +87,8 @@ function darkBackground(container){
         }                
     }
 }
+
+
 
 async function getAllCountries(){
     const dataFetch = await fetch(allUrl);
@@ -82,7 +101,7 @@ async function getAllCountries(){
 
     //filtering by Region
     dropChoices.forEach(choice=>{
-        //EventListener
+        //EventListener for drop down menu
         choice.addEventListener("click",()=>{
             allCountriesCont.innerHTML = "";
             countryInfoWrap.innerHTML="";
@@ -107,47 +126,48 @@ async function getAllCountries(){
 async function cardClickEvent(e){
     e = e || window.event;
     e.preventDefault()
-
-    //Check if the image was cliked
-    if(e.target){
     const countryName = e.target.getAttribute("value");
+
+    if(countryName){
+    //Check if the image was cliked
     const dataFetch = await fetch(`https://restcountries.com/v2/name/${countryName}`);
-    // const dataFetch = await fetch(`https://restcountries.com/v2/${countryName}`);
     const data = await dataFetch.json();
     
-    data.forEach(datas=>{
-        allCountriesCont.innerHTML = "";
-        //Create html for country info page 
-        const html = `  <div class="img-cont">
-                            <img src="${datas.flags.png}" alt="${datas.name} flag image"/>
-                        </div>
-                        <div class="info-container">
-                            <h1>${datas.name}</h1>
-                            <div class="list-info">
-                                <div class="list-cont1">
-                                    <h2>Native Name:<p>${checkIfData(datas.nativeName)}</p></h2>
-                                    <h2>Population:<p>${separator(datas.population)}</p></h2>
-                                    <h2>Region:<p>${checkIfData(datas.region)}</p></h2>
-                                    <h2>Sub Region:<p>${checkIfData(datas.subregion)}</p></h2>
-                                    <h2>Capital:<p>${checkIfData(datas.capital)}</p></h2>
+        data.forEach(datas=>{
+            if(datas.name === countryName){
+                allCountriesCont.classList.add("hide-countries")
+                formCont.classList.add("hide");
+                backBtn.classList.add("show-back-btn")
+                //Create html for country info page 
+                const html = `  <div class="img-cont">
+                                    <img src="${datas.flags.png}" alt="${datas.name} flag image"/>
                                 </div>
-                                <div class="list-cont2">
-                                    <h2>Top Level Domain:<p>${checkIfData(datas.topLevelDomain)}</p></h2>
-                                    <h2>Currencies:<p>${ifDataArray(datas.currencies)}</p></h2>
-                                    <h2>Languages:<p>${ifDataArray(datas.languages)}</p></h2>
+                                <div class="info-container">
+                                    <h1>${datas.name}</h1>
+                                    <div class="list-info">
+                                        <div class="list-cont1">
+                                            <h2>Native Name:<p>${checkIfData(datas.nativeName)}</p></h2>
+                                            <h2>Population:<p>${separator(datas.population)}</p></h2>
+                                            <h2>Region:<p>${checkIfData(datas.region)}</p></h2>
+                                            <h2>Sub Region:<p>${checkIfData(datas.subregion)}</p></h2>
+                                            <h2>Capital:<p>${checkIfData(datas.capital)}</p></h2>
+                                        </div>
+                                        <div class="list-cont2">
+                                            <h2>Top Level Domain:<p>${checkIfData(datas.topLevelDomain)}</p></h2>
+                                            <h2>Currencies:<p>${ifDataArray(datas.currencies)}</p></h2>
+                                            <h2>Languages:<p>${ifDataArray(datas.languages)}</p></h2>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        `
+                                `
+                                
+                            const countryInfo = document.createElement("div")
+                            countryInfo.classList.add("country-info-cont");
+                            countryInfo.innerHTML = html;
+                            countryInfoWrap.appendChild(countryInfo)
+            }
                         
-                      const countryInfo = document.createElement("div")
-                      countryInfo.classList.add("country-info-cont");
-                      countryInfo.innerHTML = html;
-                      countryInfoWrap.appendChild(countryInfo)
-                       
-    })
-     }else{
-        false
+        })
     }
  }
 
@@ -225,6 +245,7 @@ async function searchCountry(){
         })
     }else{
         allCountriesCont.innerHTML = "";
+        countryInfoWrap.innerHTML="";
         getAllCountries()
     }
 }
