@@ -6,6 +6,7 @@ const countryInfoWrap = document.querySelector(".country-info-wrap")
 const darkBtn = document.querySelector(".background-light-btn");
 const backBtn = document.querySelector(".back-btn-cont button");
 const formCont = document.querySelector(".form-cont");
+const noResultMessage = document.querySelector(".no-results");
 //Dark mode elements
 // const allCountriesCard = document.querySelector(".all-countries-cont").children;
 const allCountriesCard = document.querySelector(".all-countries-cont").children;
@@ -15,13 +16,14 @@ const dropWrap = document.querySelector(".drop-wrap");
 const inputCont = document.querySelector(".input-cont");
 const input = document.querySelector(".search");
 const searchButton = document.querySelector(".search-btn");
+const searchIcon = document.querySelector(".input-cont .fa-solid");
 const lightIcon = document.querySelector(".light-icon");
 const darkIcon = document.querySelector(".dark-icon");
 const darkText = document.querySelector(".dark-text");
 const header = document.querySelector("header");
 const allUrl = "https://restcountries.com/v2/all";
 
-const darkModeArray = [body,inputCont,dropWrap,header,drop,wrap,input,searchButton,lightIcon,darkIcon,backBtn]
+const darkModeArray = [body,inputCont,dropWrap,header,drop,wrap,input,searchIcon,lightIcon,darkIcon,backBtn]
 //PAGE LINK https://restcountries.com/#api-endpoints-v2
 
 
@@ -232,11 +234,10 @@ function checkIfData(data){
 
 
 //Search for country
-async function searchCountry(){
-    const dataFetch = await fetch(`https://restcountries.com/v2/name/${input.value}`);
-    const data = await dataFetch.json();
-    
+async function searchCountry(e){
     if(input.value !== ""){
+        const dataFetch = await fetch(`https://restcountries.com/v2/name/${input.value}`);
+        const data = await dataFetch.json();
         allCountriesCont.innerHTML = "";
         countryInfoWrap.innerHTML="";
         data.forEach(datas=>{

@@ -107,6 +107,7 @@ main{
 .back-btn-cont button{
     display: none;
     border: none;
+    color: black;
     background: white;
     -webkit-box-shadow: 0px 0px 2px 2px #00000047; 
     box-shadow: 0px 0px 2px 2px #00000047;
@@ -153,15 +154,17 @@ main{
    margin-right: 20px;
    margin-left: 5px;
    cursor: pointer;
+   color: rgb(110, 109, 109);
+}
+
+.input-cont .fa-solid.dark-mode{
+    color: white;
 }
 
 .search-btn{
     border: none;
+    color: rgb(193, 20, 20);
     background-color: transparent;
-}
-
-.search-btn.dark-mode{
-    color: white;
 }
 
 .input-cont input{
@@ -255,6 +258,10 @@ main{
 .all-countries-cont.hide-countries{
   display: none;
 }
+
+.all-countries-cont .no-results{
+    display: none;
+  }
 
 .country-card{
     -webkit-box-shadow:var(--shadow);
