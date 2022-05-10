@@ -24,11 +24,10 @@ const darkText = document.querySelector(".dark-text");
 const header = document.querySelector("header");
 const allUrl = "https://restcountries.com/v2/all";
 
+//Array to add dark-mode styling to elements
 const darkModeArray = [body,inputCont,dropWrap,header,drop,wrap,input,searchIcon,lightIcon,darkIcon,backBtn,showAllBtn]
-//PAGE LINK https://restcountries.com/#api-endpoints-v2
 
-//Remove focus on mobile
-input.blur()
+
 //EventListeners
 body.addEventListener("click",(e)=>{
     if(e.target !== openDrop){
@@ -47,7 +46,6 @@ searchButton.addEventListener("click",(e)=>{
     }else{
         false
     }
-
     e.preventDefault()
     searchCountry()
 })

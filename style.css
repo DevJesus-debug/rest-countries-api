@@ -78,7 +78,6 @@ nav{
 }
 
 
-
 main{
     width: 90%;
     height: 100vh;
@@ -173,6 +172,7 @@ main{
     width: 100%;
     outline: none;
     background-color: transparent;
+    font-size: 16px;
 }
 
 .input-cont input.dark-mode{
