@@ -35,7 +35,7 @@
                             <button class="search-btn">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
-                            <input class="search" type="text" placeholder="Search for a country...">
+                            <input class="search" type="text" onkeydown="searchCountry()" placeholder="Search for a country...">
                         </form>
                         <div class="drop-wrap">
                             <ul class="drop-cont">
@@ -61,10 +61,16 @@
                 </section>
                 <section class="countries-wrap">
                     <div class="all-countries-cont">
-                        <h3 class="no-results">There was no results</h3>
+
                     </div>
                     <div class="country-info-wrap">
-        
+                        <div class="no-results">
+                            <h3>No Results</h3>
+                            <div class="show-all-btn">Show All</div>
+                        </div>
+                        <div class="card-info-cont">
+                            
+                        </div>
                     </div>
                 </section>
             </main>

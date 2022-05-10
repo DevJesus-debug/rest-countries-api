@@ -3,12 +3,13 @@ const drop = document.querySelector(".drop-cont .drop");
 const dropChoices = document.querySelectorAll(".drop li");
 const allCountriesCont = document.querySelector(".all-countries-cont")
 const countryInfoWrap = document.querySelector(".country-info-wrap")
+const countryInfoCont = document.querySelector(".card-info-cont")
 const darkBtn = document.querySelector(".background-light-btn");
 const backBtn = document.querySelector(".back-btn-cont button");
 const formCont = document.querySelector(".form-cont");
 const noResultMessage = document.querySelector(".no-results");
+const showAllBtn = document.querySelector(".show-all-btn");
 //Dark mode elements
-// const allCountriesCard = document.querySelector(".all-countries-cont").children;
 const allCountriesCard = document.querySelector(".all-countries-cont").children;
 const body = document.querySelector("body");
 const wrap = document.querySelector(".wrap")
@@ -23,14 +24,12 @@ const darkText = document.querySelector(".dark-text");
 const header = document.querySelector("header");
 const allUrl = "https://restcountries.com/v2/all";
 
-const darkModeArray = [body,inputCont,dropWrap,header,drop,wrap,input,searchIcon,lightIcon,darkIcon,backBtn]
+const darkModeArray = [body,inputCont,dropWrap,header,drop,wrap,input,searchIcon,lightIcon,darkIcon,backBtn,showAllBtn]
 //PAGE LINK https://restcountries.com/#api-endpoints-v2
 
-
+//Remove focus on mobile
+input.blur()
 //EventListeners
-
-
-
 body.addEventListener("click",(e)=>{
     if(e.target !== openDrop){
         drop.classList.remove("drop-active")
@@ -43,15 +42,27 @@ body.addEventListener("click",(e)=>{
 })
 
 searchButton.addEventListener("click",(e)=>{
+    if(input.value != ""){
+        input.value = "";
+    }else{
+        false
+    }
+
     e.preventDefault()
     searchCountry()
 })
 
+showAllBtn.addEventListener("click",()=>{
+    noResultMessage.classList.remove("show-no-result")
+    getAllCountries();
+})
+
 backBtn.addEventListener("click",()=>{
-    backBtn.classList.remove("show-back-btn")
+    backBtn.classList.remove("show-back-btn");
     formCont.classList.remove("hide");
-    countryInfoWrap.innerHTML="";
-    allCountriesCont.classList.remove("hide-countries")
+    countryInfoCont.classList.add("hide-info");
+    countryInfoCont.innerHTML = "";
+    allCountriesCont.classList.remove("hide-countries");
 })
 
 
@@ -105,8 +116,8 @@ async function getAllCountries(){
     dropChoices.forEach(choice=>{
         //EventListener for drop down menu
         choice.addEventListener("click",()=>{
+            noResultMessage.classList.remove("show-no-result")
             allCountriesCont.innerHTML = "";
-            countryInfoWrap.innerHTML="";
             let value = choice.getAttribute("value");
 
             data.forEach(data=>{
@@ -137,6 +148,7 @@ async function cardClickEvent(e){
     
         data.forEach(datas=>{
             if(datas.name === countryName){
+                countryInfoCont.classList.remove("hide-info")
                 allCountriesCont.classList.add("hide-countries")
                 formCont.classList.add("hide");
                 backBtn.classList.add("show-back-btn")
@@ -163,10 +175,10 @@ async function cardClickEvent(e){
                                 </div>
                                 `
                                 
-                            const countryInfo = document.createElement("div")
+                            const countryInfo = document.createElement("div");
                             countryInfo.classList.add("country-info-cont");
                             countryInfo.innerHTML = html;
-                            countryInfoWrap.appendChild(countryInfo)
+                            countryInfoCont.appendChild(countryInfo);
             }
                         
         })
@@ -234,25 +246,23 @@ function checkIfData(data){
 
 
 //Search for country
-async function searchCountry(e){
-    if(input.value !== ""){
-        const dataFetch = await fetch(`https://restcountries.com/v2/name/${input.value}`);
-        const data = await dataFetch.json();
+async function searchCountry(){
+    const dataFetch = await fetch(`https://restcountries.com/v2/name/${input.value}`);
+    const data = await dataFetch.json();
+
+
+    if(input.value !== "" && data.message != "Not Found"){
+        console.log(input.value)
+        noResultMessage.classList.remove("show-no-result")
         allCountriesCont.innerHTML = "";
-        countryInfoWrap.innerHTML="";
         data.forEach(datas=>{
             createHtml(datas,allCountriesCont)
             darkBackground(allCountriesCard)
         })
     }else{
+        noResultMessage.classList.add("show-no-result")
         allCountriesCont.innerHTML = "";
-        countryInfoWrap.innerHTML="";
-        getAllCountries()
     }
 }
 
-
-
-
-searchCountry();
 getAllCountries();
