@@ -251,8 +251,7 @@ async function searchCountry(){
     const data = await dataFetch.json();
 
 
-    if(input.value !== "" && data.message != "Not Found"){
-        console.log(input.value)
+    if(input.value !== "" && data.message != "Not Found" && data.message != "Page Not Found"){
         noResultMessage.classList.remove("show-no-result")
         allCountriesCont.innerHTML = "";
         data.forEach(datas=>{
