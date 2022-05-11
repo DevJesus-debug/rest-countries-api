@@ -41,11 +41,6 @@ body.addEventListener("click",(e)=>{
 })
 
 searchButton.addEventListener("click",(e)=>{
-    if(input.value != ""){
-        input.value = "";
-    }else{
-        false
-    }
     e.preventDefault()
     searchCountry()
 })
@@ -247,7 +242,6 @@ function checkIfData(data){
 async function searchCountry(){
     const dataFetch = await fetch(`https://restcountries.com/v2/name/${input.value}`);
     const data = await dataFetch.json();
-
 
     if(input.value !== "" && data.message != "Not Found" && data.message != "Page Not Found"){
         noResultMessage.classList.remove("show-no-result")
